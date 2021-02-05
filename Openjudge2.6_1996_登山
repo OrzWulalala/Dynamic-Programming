@@ -1,0 +1,30 @@
+#include <stdio.h>
+#include <algorithm>
+using namespace std;
+int f[1010], a[1010], n, ans;
+//f[i]表示以A[i]为结尾的最长上升子序列的长度
+int g[1010];
+//g[i]表示以A[i]为起点的最长下降子序列的长度
+int main(){
+    scanf("%d", &n);
+    for (int i = 1; i <= n; i ++)
+        scanf("%d", &a[i]);
+    for (int i = 1; i <= n; i ++){
+        f[i] = 1;//a[i]本身构成一个长度为1的上升子序列
+        for (int j = 1; j < i; j ++)
+            if (a[j] < a[i])
+                f[i] = max(f[i], f[j] + 1);
+    }
+    for (int i = n; i >= 1; i --){
+        //从右向左看，g[i]表示以a[i]为结尾的最长上升子序列的长度
+        g[i] = 1;
+        for (int j = n; j > i; j --){
+            if (a[i] > a[j])
+                g[i] = max(g[i], g[j] + 1);
+        }
+    }
+    for (int i = 1; i <= n; i ++)
+        ans = max(ans, f[i] + g[i] - 1);
+    printf("%d", ans);
+    return 0;
+}
