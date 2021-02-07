@@ -1,0 +1,22 @@
+#include <stdio.h>
+#include <algorithm>
+using namespace std;
+int f[110][1010];
+int V, n;
+int v[110], val[110];
+int main(){
+    scanf("%d%d", &V, &n);
+    for (int i = 1; i <= n; i ++)
+        scanf("%d%d", &v[i], &val[i]);
+    for (int i = 1; i <= n; i ++){
+        for (int j = 0; j <= V; j ++){
+            if (j < v[i])f[i][j] = f[i-1][j];
+            //如果当前的总时间无法采摘第i种草药，就直接在前
+            //i-1种草药里找最高价值
+            else f[i][j] = max(f[i-1][j], 
+                               val[i] + f[i-1][j - v[i]]);
+        }
+    }
+    printf("%d", f[n][V]);
+    return 0;
+}
