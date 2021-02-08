@@ -1,0 +1,27 @@
+#include <stdio.h>
+#include <iostream>
+#include <algorithm>
+#include <string.h>
+using namespace std;
+int f[110], g[110], a[110];
+int main(){
+    int T;
+    scanf("%d", &T);
+    while (T --){
+        int n, ans = 0;
+        scanf("%d", &n);
+        for (int i = 1; i <= n; i ++){
+            scanf("%d", &a[i]);
+            f[i] = g[i] = 1;
+            for (int j = 1; j < i; j ++){
+                if (a[i] > a[j])
+                    f[i] = max(f[i], f[j] + 1);
+                if (a[i] < a[j])
+                    g[i] = max(g[i], g[j] + 1);
+            }
+            ans = max(ans, max(f[i], g[i]));
+        }
+        printf("%d\n", ans);
+    }
+    return 0;
+}
